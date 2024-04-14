@@ -1,17 +1,4 @@
-from fastapi import FastAPI
-from contextlib import asynccontextmanager
+import uvicorn
 
-from app.database import create_tables, delete_tables
-from app.router import router as tasks_router
-
-@asynccontextmanager
-async def lifespan(app: FastAPI):
-    await delete_tables()
-    print("Cleared")
-    await create_tables()
-    print("Load completed")
-    yield
-    print("Reloading")
-
-app = FastAPI(lifespan=lifespan)
-app.include_router(tasks_router)
+if __name__ == "__main__":
+    uvicorn.run("app.api:app", host="0.0.0.0", port=8081, reload=True)
