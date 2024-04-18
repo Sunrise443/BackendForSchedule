@@ -1,5 +1,6 @@
-from email.errors import FirstHeaderLineIsContinuationDefect
 from pydantic import BaseModel, Field, EmailStr
+
+#Posts (plans, goals and stuff)
 
 class PostSchema(BaseModel):
     id: int = Field (default=None)

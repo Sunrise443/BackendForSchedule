@@ -1,8 +1,9 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Body, Depends
 
 
 from app.model import PostSchema, UserSchema, UserLoginSchema
 from app.auth.auth_handler import signJWT
+from app.auth.auth_bearer import JWTBearer
 
 
 plans = [
@@ -51,7 +52,7 @@ async def get_single_post (id: int) -> dict:
             }
         
 
-@app.post("/posts", tags=["posts"])
+@app.post("/posts", dependencies=[Depends(JWTBearer())], tags=["posts"])
 async def add_plan(plan: PostSchema) -> dict:
     plan.id = len(plans) + 1
     plans.append(plan.dict())
@@ -62,15 +63,17 @@ async def add_plan(plan: PostSchema) -> dict:
 
 #Registration and stuff
 ##DON'T FORGET TO HASH THE PASSWORDS
-##Doesn't recognise Body
+##CHANGE ERROR MESSAGES TO CODES (http cats)
+##MOVE USERS (plans included) FROM TEMP STORAGE TO A DATABASE
+##ROUTERS FOR UPDATING AND DELETING TASKS
 
 @app.post("/user/signup", tags=["user"])
-async def create_user(user: UserSchema):
+async def create_user(user: UserSchema = Body(...)):
     users.append(user)
     return signJWT(user.email)
 
 
-def check_user(data: UserLoginSchema):
+def check_user(data: UserLoginSchema = Body(...)):
     for user in users:
         if user.email == data.email and user.password == data.password:
             return True
