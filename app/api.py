@@ -1,10 +1,15 @@
+from typing import Annotated
 from fastapi import FastAPI, Body, Depends
+from contextlib import asynccontextmanager
 
 
-from app.model import PostSchema, UserSchema, UserLoginSchema
+from app.database import create_tables
+from app.model import GoalSchema, PlanSchemaAdd, UserSchema, UserLoginSchema
 from app.auth.auth_handler import signJWT
 from app.auth.auth_bearer import JWTBearer
 
+
+#Базы данных требуется заменить
 
 plans = [
     {
@@ -24,8 +29,18 @@ goals = [
 
 users = []
 
+#Само приложение
 
-app = FastAPI()
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    await create_tables()
+    print("Database is ready.")
+    yield
+    print("Turning off.")
+
+
+app = FastAPI(lifespan=lifespan)
 
 
 @app.get("/", tags=["root"])
@@ -33,32 +48,27 @@ async def read_root() -> dict:
     return {"message": "Hello visitors!"}
 
 
-@app.get("/posts", tags=["posts"])
+#Plans and goals (The planner. Needs to be linked with the date somehow)
+
+
+@app.get("/planner", tags=["planner"])
 async def get_root() -> dict:
     return {"plans_data": plans, "goals_data": goals}
-
-
-@app.get("/posts/{id}", tags=["posts"])
-async def get_single_post (id: int) -> dict:
-    if id > len(plans):
-        return {
-            "error": "No such plan with the supplied ID."
-        }
-    
-    for plan in plans:
-        if plan["id"] == id:
-            return {
-                "plan_data": plan
-            }
         
 
-@app.post("/posts", dependencies=[Depends(JWTBearer())], tags=["posts"])
-async def add_plan(plan: PostSchema) -> dict:
-    plan.id = len(plans) + 1
-    plans.append(plan.dict())
+@app.post("/planner_plans", tags=["planner"])
+async def add_plan(plan: Annotated[PlanSchemaAdd, Depends()]):
+
+    return {"data": "plan added"}
+
+@app.post("/planner_goals", dependencies=[Depends(JWTBearer())], tags=["planner"])
+async def add_goal(goal: GoalSchema) -> dict:
+    goal.id = len(goals) + 1
+    plans.append(goal.dict())
     return {
-        "data": "plan added"
+        "data": "goal added"
     }
+
 
 
 #Registration and stuff

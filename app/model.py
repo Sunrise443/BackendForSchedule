@@ -1,16 +1,44 @@
-from pydantic import BaseModel, Field, EmailStr
+from pydantic import BaseModel, Field, EmailStr, ConfigDict
 
-#Posts (plans, goals and stuff)
+#Plans and goals
 
-class PostSchema(BaseModel):
+class PlanSchemaAdd(BaseModel):
     id: int = Field (default=None)
-    task_name: str = Field (...)
-    
+    user_id: int = Field (default=None)
+    plan_name: str = Field (...)
+    date: int = Field (...)
 
     class Config:
         schema_extra = {
             "example": {
-                "task_name": "Cleaning the house"
+                "plan_name": "Cleaning the house"
+            }
+        }
+
+class PlanSchema(PlanSchemaAdd):
+    id: int = Field (default=None)
+    user_id: int = Field (default=None)
+    plan_name: str = Field (...)
+    date: int = Field (...)
+
+    class Config:
+        schema_extra = {
+            "example": {
+                "plan_name": "Cleaning the house"
+            }
+        }
+
+
+class GoalSchema(BaseModel):
+    id: int = Field (default=None)
+    user_id: int = Field (default=None)
+    goal_name: str = Field (...)
+    date: int = Field (...)
+
+    class Config:
+        schema_extra = {
+            "example": {
+                "goal_name": "Buying a car"
             }
         }
 
@@ -42,3 +70,16 @@ class UserLoginSchema(BaseModel):
                 "password": "1234"
             }
         }
+
+
+#Users
+
+class User(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+
+    id: int
+    username: str
+    email: str
+
+class UserPrivate(User):
+    hashed_password: str
