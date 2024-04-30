@@ -14,14 +14,18 @@ async def read_root() -> dict:
 
 #Plans and goals (The planner. Needs to be linked with the date somehow)
 
-@router.get("", tags=["planner"])
-async def get_all() -> PlanSchema:
+@router.get("/plans", tags=["planner"])
+async def get_plans() -> list[PlanSchema]:
     plans = await PlanRepo.find_all()
+    return {"plans_data": plans}
+
+@router.get("/goals", tags=["planner"])
+async def get_goals() -> list[GoalSchema]:
     goals = await GoalRepo.find_all()
-    return {"plans_data": plans, "goals_data": goals}
+    return {"goals_data": goals}
         
 
-@router.post("/plans", dependencies=[Depends(JWTBearer())], tags=["planner"])
+@router.post("/plans",  tags=["planner"])
 async def add_plan(plan: Annotated[PlanSchemaAdd, Depends()]) -> PlanSchema:
     plan.id = await PlanRepo.add_one(plan)
     return {"data": "plan added", "plan_id": plan.id}

@@ -3,6 +3,7 @@ from pydantic import BaseModel, Field, EmailStr, ConfigDict
 #Plans and goals
 
 class PlanSchemaAdd(BaseModel):
+    id: int = Field (default=None)
     user_id: int = Field (default=None)
     plan_name: str = Field (...)
     date: int = Field (...)
@@ -42,6 +43,7 @@ class GoalSchema(BaseModel):
         }
 
 class GoalSchemaAdd(BaseModel):
+    id: int = Field (default=None)
     user_id: int = Field (default=None)
     goal_name: str = Field (...)
     date: int = Field (...)

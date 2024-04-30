@@ -17,6 +17,7 @@ class PlansOrm(Model):
     id: Mapped[int] = mapped_column(primary_key=True)
     user_id: Mapped[int]
     plan_name: Mapped[str]
+    date: Mapped[int]
 
 class GoalsOrm(Model):
     __tablename__ = "goals"
@@ -24,6 +25,7 @@ class GoalsOrm(Model):
     id: Mapped[int] = mapped_column(primary_key=True)
     user_id: Mapped[int]
     goal_name: Mapped[str]
+    date: Mapped[int]
 
 
 async def create_tables():
