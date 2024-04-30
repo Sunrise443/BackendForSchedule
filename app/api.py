@@ -1,37 +1,12 @@
-from typing import Annotated
-from fastapi import FastAPI, Body, Depends
+from fastapi import FastAPI, Body
 from contextlib import asynccontextmanager
 
-
 from app.database import create_tables
-from app.model import GoalSchema, PlanSchemaAdd, UserSchema, UserLoginSchema
+from app.model import UserSchema, UserLoginSchema
 from app.auth.auth_handler import signJWT
-from app.auth.auth_bearer import JWTBearer
-from app.repository import PlanRepo
-
-
-#Базы данных требуется заменить
-
-plans = [
-    {
-        "id": 1,
-        "plan_name": "Buying apples",
-    }
-]
-
-
-goals = [
-    {
-        "id": 1,
-        "goal_name": "Buying a car"
-    }
-]
-
-
-users = []
+from app.routers import router
 
 #Само приложение
-
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -42,41 +17,14 @@ async def lifespan(app: FastAPI):
 
 
 app = FastAPI(lifespan=lifespan)
-
-
-@app.get("/", tags=["root"])
-async def read_root() -> dict:
-    return {"message": "Hello visitors!"}
-
-
-#Plans and goals (The planner. Needs to be linked with the date somehow)
-
-
-@app.get("/planner", tags=["planner"])
-async def get_root() -> dict:
-    return {"plans_data": plans, "goals_data": goals}
-        
-
-@app.post("/planner_plans", tags=["planner"])
-async def add_plan(plan: Annotated[PlanSchemaAdd, Depends()]):
-    plan.id = await PlanRepo.add_one(plan)
-    return {"data": "plan added", "plan_id": plan.id}
-
-@app.post("/planner_goals", dependencies=[Depends(JWTBearer())], tags=["planner"])
-async def add_goal(goal: GoalSchema) -> dict:
-    goal.id = len(goals) + 1
-    plans.append(goal.dict())
-    return {
-        "data": "goal added"
-    }
-
-
+app.include_router(router)
 
 #Registration and stuff
 ##DON'T FORGET TO HASH THE PASSWORDS
 ##CHANGE ERROR MESSAGES TO CODES (http cats)
 ##MOVE USERS (plans included) FROM TEMP STORAGE TO A DATABASE
-##ROUTERS FOR UPDATING AND DELETING TASKS
+
+users = []
 
 @app.post("/user/signup", tags=["user"])
 async def create_user(user: UserSchema = Body(...)):

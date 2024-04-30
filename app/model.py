@@ -3,7 +3,6 @@ from pydantic import BaseModel, Field, EmailStr, ConfigDict
 #Plans and goals
 
 class PlanSchemaAdd(BaseModel):
-    id: int = Field (default=None)
     user_id: int = Field (default=None)
     plan_name: str = Field (...)
     date: int = Field (...)
@@ -31,6 +30,18 @@ class PlanSchema(PlanSchemaAdd):
 
 class GoalSchema(BaseModel):
     id: int = Field (default=None)
+    user_id: int = Field (default=None)
+    goal_name: str = Field (...)
+    date: int = Field (...)
+
+    class Config:
+        schema_extra = {
+            "example": {
+                "goal_name": "Buying a car"
+            }
+        }
+
+class GoalSchemaAdd(BaseModel):
     user_id: int = Field (default=None)
     goal_name: str = Field (...)
     date: int = Field (...)
