@@ -7,6 +7,7 @@ from app.database import create_tables
 from app.model import GoalSchema, PlanSchemaAdd, UserSchema, UserLoginSchema
 from app.auth.auth_handler import signJWT
 from app.auth.auth_bearer import JWTBearer
+from app.repository import PlanRepo
 
 
 #Базы данных требуется заменить
@@ -58,8 +59,8 @@ async def get_root() -> dict:
 
 @app.post("/planner_plans", tags=["planner"])
 async def add_plan(plan: Annotated[PlanSchemaAdd, Depends()]):
-
-    return {"data": "plan added"}
+    plan.id = await PlanRepo.add_one(plan)
+    return {"data": "plan added", "plan_id": plan.id}
 
 @app.post("/planner_goals", dependencies=[Depends(JWTBearer())], tags=["planner"])
 async def add_goal(goal: GoalSchema) -> dict:
