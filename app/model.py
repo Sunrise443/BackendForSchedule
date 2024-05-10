@@ -1,3 +1,4 @@
+import datetime
 from pydantic import BaseModel, Field, EmailStr, ConfigDict
 
 #Plans and goals
@@ -6,7 +7,7 @@ class PlanSchemaAdd(BaseModel):
     id: int = Field (default=None)
     user_id: int = Field (default=None)
     plan_name: str = Field (...)
-    date: int = Field (...)
+    date: datetime.date = Field (...)
 
     class Config:
         schema_extra = {
@@ -19,7 +20,7 @@ class PlanSchema(PlanSchemaAdd):
     id: int = Field (default=None)
     user_id: int = Field (default=None)
     plan_name: str = Field (...)
-    date: int = Field (...)
+    date: datetime.date = Field (...)
 
     class Config:
         schema_extra = {
@@ -33,7 +34,7 @@ class GoalSchema(BaseModel):
     id: int = Field (default=None)
     user_id: int = Field (default=None)
     goal_name: str = Field (...)
-    date: int = Field (...)
+    date: datetime.date = Field (...)
 
     class Config:
         schema_extra = {
@@ -46,7 +47,7 @@ class GoalSchemaAdd(BaseModel):
     id: int = Field (default=None)
     user_id: int = Field (default=None)
     goal_name: str = Field (...)
-    date: int = Field (...)
+    date: datetime.date = Field (...)
 
     class Config:
         schema_extra = {

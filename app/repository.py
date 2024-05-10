@@ -1,6 +1,8 @@
 from app.model import PlanSchemaAdd, PlanSchema, GoalSchema, GoalSchemaAdd
 from app.database import new_session, PlansOrm, GoalsOrm
-import select
+
+
+from sqlalchemy import select
 
 class PlanRepo:
     @classmethod

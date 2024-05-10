@@ -10,9 +10,18 @@ router = APIRouter(prefix="/planner")
 
 @router.get("/", tags=["root"])
 async def read_root() -> dict:
-    return {"message": "Hello visitors!"}
+    return {"message": "Hello visitors!"}        
 
-#Plans and goals (The planner. Needs to be linked with the date somehow)
+@router.post("/plans",  tags=["planner"])
+async def add_plan(plan: Annotated[PlanSchemaAdd, Depends()]) -> PlanSchema:
+    plan_id = await PlanRepo.add_one(plan)
+    return {"data": "plan added", "plan_id": plan_id}
+
+@router.post("/goals", dependencies=[Depends(JWTBearer())], tags=["planner"])
+async def add_goal(goal: Annotated[GoalSchemaAdd, Depends()]) -> GoalSchema:
+    goal_id = await GoalRepo.add_one(goal)
+    return {"data": "goal added", "goal_id": goal_id}
+
 
 @router.get("/plans", tags=["planner"])
 async def get_plans() -> list[PlanSchema]:
@@ -23,14 +32,3 @@ async def get_plans() -> list[PlanSchema]:
 async def get_goals() -> list[GoalSchema]:
     goals = await GoalRepo.find_all()
     return {"goals_data": goals}
-        
-
-@router.post("/plans",  tags=["planner"])
-async def add_plan(plan: Annotated[PlanSchemaAdd, Depends()]) -> PlanSchema:
-    plan.id = await PlanRepo.add_one(plan)
-    return {"data": "plan added", "plan_id": plan.id}
-
-@router.post("/goals", dependencies=[Depends(JWTBearer())], tags=["planner"])
-async def add_goal(goal: Annotated[GoalSchemaAdd, Depends()]) -> GoalSchema:
-    goal.id = await GoalRepo.add_one(goal)
-    return {"data": "goal added", "goal_id": goal.id}

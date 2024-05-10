@@ -1,8 +1,9 @@
+import datetime
 from sqlalchemy.ext.asyncio import create_async_engine, async_sessionmaker
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
 
 engine = create_async_engine (
-    "sqlite+aiosqlite:///app/plans.db"
+    "sqlite+aiosqlite:///app/plansandgoals666.db"
 )
 
 new_session = async_sessionmaker(engine, expire_on_commit=False)
@@ -17,7 +18,7 @@ class PlansOrm(Model):
     id: Mapped[int] = mapped_column(primary_key=True)
     user_id: Mapped[int]
     plan_name: Mapped[str]
-    date: Mapped[int]
+    date: Mapped[datetime.date]
 
 class GoalsOrm(Model):
     __tablename__ = "goals"
@@ -25,7 +26,7 @@ class GoalsOrm(Model):
     id: Mapped[int] = mapped_column(primary_key=True)
     user_id: Mapped[int]
     goal_name: Mapped[str]
-    date: Mapped[int]
+    date: Mapped[datetime.date]
 
 
 async def create_tables():
