@@ -1,4 +1,4 @@
-﻿# Backend for uni project. Planner.
+﻿# Backend for a uni project. Planner.
 
 This is the back-end of UniPlanner's system.
 Here is the [link](https://github.com/kleprer/diary.git) to our frontend part of the project.
@@ -17,7 +17,7 @@ The backend is carried out in:
 ## Required programs
 
 In order to use the project on localhost it is necessary to clone it and have some necessary programs written in 
-```requirements.txt.```
+```requirements.txt```.
 To install run
 ```bash
 pip install -r requirements.txt
@@ -29,7 +29,7 @@ pip install -r requirements.txt
 Command to clone:
 ```bash
 cd existing_folder
-git clone [REPOSITORY LINK]
+git clone https://github.com/Sunrise443/BackendForSchedule.git
 ```
 
 
