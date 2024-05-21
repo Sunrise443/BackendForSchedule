@@ -1,63 +1,63 @@
 import datetime
-from pydantic import BaseModel, Field, EmailStr, ConfigDict
+from pydantic import BaseModel, ConfigDict, EmailStr, Field
 
-#Plans and goals
+
+
+#Planner Schemas
+
+
 
 class PlanSchemaAdd(BaseModel):
-    id: int = Field (default=None)
-    user_id: int = Field (default=None)
-    plan_name: str = Field (...)
-    date: datetime.date = Field (...)
-
-    class Config:
-        schema_extra = {
-            "example": {
-                "plan_name": "Cleaning the house"
-            }
-        }
+    user_id: int
+    plan_name: str
+    date: datetime.date
 
 class PlanSchema(PlanSchemaAdd):
-    id: int = Field (default=None)
-    user_id: int = Field (default=None)
-    plan_name: str = Field (...)
-    date: datetime.date = Field (...)
+    id: int
 
-    class Config:
-        schema_extra = {
-            "example": {
-                "plan_name": "Cleaning the house"
-            }
-        }
+    model_config = ConfigDict(from_attributes=True)
+
+class PlanSchemaId(BaseModel):
+    ok: bool = True
+    plan_id: int
 
 
-class GoalSchema(BaseModel):
-    id: int = Field (default=None)
-    user_id: int = Field (default=None)
-    goal_name: str = Field (...)
-    date: datetime.date = Field (...)
-
-    class Config:
-        schema_extra = {
-            "example": {
-                "goal_name": "Buying a car"
-            }
-        }
 
 class GoalSchemaAdd(BaseModel):
-    id: int = Field (default=None)
-    user_id: int = Field (default=None)
-    goal_name: str = Field (...)
-    date: datetime.date = Field (...)
+    user_id: int
+    goal_name: str
+    date: datetime.date
 
-    class Config:
-        schema_extra = {
-            "example": {
-                "goal_name": "Buying a car"
-            }
-        }
+class GoalSchema(GoalSchemaAdd):
+    id: int
+
+    model_config = ConfigDict(from_attributes=True)
+
+class GoalSchemaId(BaseModel):
+    ok: bool = True
+    goal_id: int
 
 
-#Registration and stuff
+
+class NoteSchemaAdd(BaseModel):
+    user_id: int
+    note_name: str
+    date: datetime.date
+
+class NoteSchema(NoteSchemaAdd):
+    id: int
+
+    model_config = ConfigDict(from_attributes=True)
+
+class NoteSchemaId(BaseModel):
+    ok: bool = True
+    note_id: int
+
+
+
+#Authentication Schemas
+
+
 
 class UserSchema(BaseModel):
     nickname: str = Field(...)
@@ -65,35 +65,24 @@ class UserSchema(BaseModel):
     password: str = Field(...)
 
     class Config:
-        schema_extra = {
+        json_schema_extra = {
             "example": {
-                "nickname": "Sunny",
-                "email": "sunny@gmail.com",
-                "password": "1234"
+                "nickname": "hamster",
+                "email": "haha@example.com",
+                "password": "1234a"
             }
         }
+
+
 
 class UserLoginSchema(BaseModel):
     email: EmailStr = Field(...)
     password: str = Field(...)
 
     class Config:
-        schema_extra = {
+        json_schema_extra = {
             "example": {
-                "email": "sunny@gmail.com",
-                "password": "1234"
+                "email": "haha@example.com",
+                "password": "1234a"
             }
         }
-
-
-#Users
-
-class User(BaseModel):
-    model_config = ConfigDict(from_attributes=True)
-
-    id: int
-    username: str
-    email: str
-
-class UserPrivate(User):
-    hashed_password: str

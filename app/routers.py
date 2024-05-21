@@ -1,34 +1,53 @@
-from fastapi import APIRouter, Depends
 from typing import Annotated
 
-from app.repository import PlanRepo, GoalRepo
-from app.model import PlanSchema, PlanSchemaAdd, GoalSchema, GoalSchemaAdd
-from app.auth.auth_bearer import JWTBearer
+from fastapi import APIRouter, Depends
 
-router = APIRouter(prefix="/planner")
+from app.repository import PlanRepo, GoalRepo, NoteRepo
+from app.model import PlanSchema, PlanSchemaId, PlanSchemaAdd, GoalSchema, GoalSchemaAdd, GoalSchemaId, NoteSchema, NoteSchemaAdd, NoteSchemaId, UserSchema
 
 
-@router.get("/", tags=["root"])
-async def read_root() -> dict:
-    return {"message": "Hello visitors!"}        
+router = APIRouter()
 
-@router.post("/plans",  tags=["planner"])
-async def add_plan(plan: Annotated[PlanSchemaAdd, Depends()]) -> PlanSchema:
+
+
+#Planner
+
+
+
+@router.post("planner/plans", tags=["planner"])
+async def add_plan(plan: Annotated[PlanSchemaAdd, Depends()]) -> PlanSchemaId:
     plan_id = await PlanRepo.add_one(plan)
-    return {"data": "plan added", "plan_id": plan_id}
+    return{"ok": True, "plan_id": plan_id}
 
-@router.post("/goals", dependencies=[Depends(JWTBearer())], tags=["planner"])
-async def add_goal(goal: Annotated[GoalSchemaAdd, Depends()]) -> GoalSchema:
-    goal_id = await GoalRepo.add_one(goal)
-    return {"data": "goal added", "goal_id": goal_id}
-
-
-@router.get("/plans", tags=["planner"])
+@router.get("planner/plans", tags=["planner"])
 async def get_plans() -> list[PlanSchema]:
     plans = await PlanRepo.find_all()
-    return {"plans_data": plans}
+    return plans
 
-@router.get("/goals", tags=["planner"])
+
+
+@router.post("planner/goals", tags=["planner"])
+async def add_goal(goal: Annotated[GoalSchemaAdd, Depends()]) -> GoalSchemaId:
+    goal_id = await GoalRepo.add_one(goal)
+    return{"ok": True, "goal_id": goal_id}
+
+@router.get("planner/goals", tags=["planner"])
 async def get_goals() -> list[GoalSchema]:
     goals = await GoalRepo.find_all()
-    return {"goals_data": goals}
+    return goals
+
+
+
+@router.post("planner/notes", tags=["planner"])
+async def add_note(note: Annotated[NoteSchemaAdd, Depends()]) -> NoteSchemaId:
+    note_id = await NoteRepo.add_one(note)
+    return{"ok": True, "note_id": note_id}
+
+@router.get("planner/notes", tags=["planner"])
+async def get_notes() -> list[NoteSchema]:
+    notes = await NoteRepo.find_all()
+    return notes
+
+
+
+#Authentication

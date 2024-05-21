@@ -2,3 +2,6 @@ fastapi
 uvicorn
 sqlalchemy
 aiosqlite
+PyJWT
+python-decouple
+email_validator
