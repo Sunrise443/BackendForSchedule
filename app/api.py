@@ -23,3 +23,4 @@ app.include_router(router)
 @app.get("/notfound", status_code=404)
 def notfound():
     return  {"message": "Resource Not Found"}
+

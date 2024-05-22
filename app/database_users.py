@@ -19,6 +19,10 @@ engine = create_engine('sqlite:///users.db', echo=True)
 Session = sessionmaker(bind=engine)
 session = Session()
 
-async def create_tables1():
+async def create_tables():
     async with engine.begin() as conn:
         await conn.run_sync(Basic.metadata.create_all)
+
+async def delete_tables():
+    async with engine.begin() as conn:
+        await conn.run_sync(Basic.metadata.drop_all)
