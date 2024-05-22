@@ -17,8 +17,5 @@ async def lifespan(app: FastAPI):
     print("Turning off")
 
 
-#lkdkdkg
-    
-    
 app = FastAPI(lifespan=lifespan)
 app.include_router(router)
