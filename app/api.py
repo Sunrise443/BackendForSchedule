@@ -24,3 +24,20 @@ app.include_router(router)
 def notfound():
     return  {"message": "Resource Not Found"}
 
+@app.get("/error")
+async def get_error():
+    return{"message": "Custom Error Message"}
+
+from fastapi import FastAPI, HTTPException
+
+
+fake_user_db = {
+    "username": "admin",
+    "password": "secret"
+}
+
+@app.post("/login")
+async def login(username: str, password: str):
+    if username != fake_user_db["username"] or password != fake_user_db["password"]:
+        raise HTTPException(status_code=401, detail="Incorrect username or password")
+    return {"message": "Login successful"}
