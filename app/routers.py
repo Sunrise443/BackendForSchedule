@@ -3,7 +3,7 @@ from typing import Annotated
 from fastapi import APIRouter, Depends
 
 from app.repository import PlanRepo, GoalRepo, NoteRepo
-from app.model import PlanSchema, PlanSchemaId, PlanSchemaAdd, GoalSchema, GoalSchemaAdd, GoalSchemaId, NoteSchema, NoteSchemaAdd, NoteSchemaId, UserSchema
+from app.model import PlanSchema, PlanSchemaId, PlanSchemaAdd, GoalSchema, GoalSchemaAdd, GoalSchemaId, NoteSchema, NoteSchemaAdd, NoteSchemaId
 
 
 router = APIRouter()
@@ -47,7 +47,3 @@ async def add_note(note: Annotated[NoteSchemaAdd, Depends()]) -> NoteSchemaId:
 async def get_notes() -> list[NoteSchema]:
     notes = await NoteRepo.find_all()
     return notes
-
-
-
-#Authentication

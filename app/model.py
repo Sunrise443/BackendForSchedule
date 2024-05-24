@@ -1,5 +1,5 @@
 import datetime
-from pydantic import BaseModel, ConfigDict, EmailStr, Field
+from pydantic import BaseModel, ConfigDict
 
 
 
@@ -52,37 +52,3 @@ class NoteSchema(NoteSchemaAdd):
 class NoteSchemaId(BaseModel):
     ok: bool = True
     note_id: int
-
-
-
-#Authentication Schemas
-
-
-
-class UserSchema(BaseModel):
-    nickname: str = Field(...)
-    email: EmailStr = Field(...)
-    password: str = Field(...)
-
-    class Config:
-        json_schema_extra = {
-            "example": {
-                "nickname": "hamster",
-                "email": "haha@example.com",
-                "password": "1234a"
-            }
-        }
-
-
-
-class UserLoginSchema(BaseModel):
-    email: EmailStr = Field(...)
-    password: str = Field(...)
-
-    class Config:
-        json_schema_extra = {
-            "example": {
-                "email": "haha@example.com",
-                "password": "1234a"
-            }
-        }
