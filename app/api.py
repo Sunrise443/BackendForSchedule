@@ -36,3 +36,7 @@ async def login(username: str, password: str):
     if username != fake_user_db["username"] or password != fake_user_db["password"]:
         raise HTTPException(status_code=401, detail="Incorrect username or password")
     return {"message": "Login successful"}
+
+@app.get("/error")
+async def connection_error():
+    raise HTTPException(status_code=102, detail="System Error(102)")
