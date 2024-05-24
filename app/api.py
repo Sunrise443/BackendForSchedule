@@ -1,4 +1,4 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 
 from contextlib import asynccontextmanager
 
@@ -24,11 +24,6 @@ app.include_router(router)
 def notfound():
     return  {"message": "Resource Not Found"}
 
-@app.get("/error")
-async def get_error():
-    return{"message": "Custom Error Message"}
-
-from fastapi import FastAPI, HTTPException
 
 
 fake_user_db = {
