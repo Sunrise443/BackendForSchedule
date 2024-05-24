@@ -38,6 +38,7 @@ git clone https://github.com/Sunrise443/BackendForSchedule.git
 ```bash
 python main.py
 ```
+Local host: http://localhost:8081
 
 
 ## Upload changes
