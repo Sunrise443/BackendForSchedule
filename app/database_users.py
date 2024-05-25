@@ -9,7 +9,7 @@ class Basic(declarative_base):
 class User(Basic):
     __tablename__ = 'users'
     
-    id = Column(Integer, primary_key=True, autoincrement=True)
+    username = Column(Integer, primary_key=True, autoincrement=True)
     name = Column(String)
     email = Column(String, unique=True)
 
