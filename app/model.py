@@ -1,3 +1,4 @@
+import datetime
 from pydantic import BaseModel, ConfigDict
 
 
@@ -8,7 +9,7 @@ from pydantic import BaseModel, ConfigDict
 class PlanSchemaAdd(BaseModel):
     user_id: int
     plan_name: str
-    date: str
+    date: datetime.date
 
 class PlanSchema(PlanSchemaAdd):
     id: int
@@ -24,7 +25,7 @@ class PlanSchemaId(BaseModel):
 class GoalSchemaAdd(BaseModel):
     user_id: int
     goal_name: str
-    date: str
+    date: datetime.date
 
 class GoalSchema(GoalSchemaAdd):
     id: int
@@ -40,7 +41,7 @@ class GoalSchemaId(BaseModel):
 class NoteSchemaAdd(BaseModel):
     user_id: int
     note_name: str
-    date: str
+    date: datetime.date
 
 class NoteSchema(NoteSchemaAdd):
     id: int
