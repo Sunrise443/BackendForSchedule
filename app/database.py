@@ -15,6 +15,7 @@ class PlanOrm(Model):
     user_id: Mapped[int]
     plan_name: Mapped[str]
     date: Mapped[str]
+    completed: Mapped[bool]
 
 class GoalOrm(Model):
     __tablename__ = "goals"
@@ -23,6 +24,7 @@ class GoalOrm(Model):
     user_id: Mapped[int]
     goal_name: Mapped[str]
     date: Mapped[str]
+    completed: Mapped[bool]
 
 class NoteOrm(Model):
     __tablename__ = "notes"
@@ -31,6 +33,7 @@ class NoteOrm(Model):
     user_id: Mapped[int]
     note_name: Mapped[str]
     date: Mapped[str]
+    completed: Mapped[bool]
 
 async def create_tables():
     async with engine.begin() as conn:

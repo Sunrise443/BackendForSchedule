@@ -9,6 +9,7 @@ class PlanSchemaAdd(BaseModel):
     user_id: int
     plan_name: str
     date: str
+    completed: bool
 
 class PlanSchema(PlanSchemaAdd):
     id: int
@@ -25,6 +26,7 @@ class GoalSchemaAdd(BaseModel):
     user_id: int
     goal_name: str
     date: str
+    completed: bool
 
 class GoalSchema(GoalSchemaAdd):
     id: int
@@ -41,6 +43,7 @@ class NoteSchemaAdd(BaseModel):
     user_id: int
     note_name: str
     date: str
+    completed: bool
 
 class NoteSchema(NoteSchemaAdd):
     id: int
