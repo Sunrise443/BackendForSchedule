@@ -61,3 +61,18 @@ async def register(user:User):
     users.append(user)#dobavili usera v basu dannih
     return{"message": "User registered successfully"}
 
+
+
+from passlib.context import CryptContext
+
+pwd_context = CryptContext(schemes = [bcrypt], deprecated = "auto")
+app = FastApi()
+
+def get_pwd_hash(password):
+    return pwd_context.hash(password)
+ #password = "random12345" #пример использования 
+ #hash_pwd = get_pwd_hash(password)
+ #print(hash_pwd)
+  
+def verify_password(plain_pwd, hash_pwd): #проверка пароля 
+    return pwd_context.verify(plain_pwd, hash_pwd)
