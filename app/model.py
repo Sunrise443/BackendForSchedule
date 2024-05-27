@@ -62,14 +62,14 @@ class NoteSchemaId(BaseModel):
 
 
 class UserSchema(BaseModel):
-    nickname: str = Field(...)
+    name: str = Field(...)
     email: EmailStr = Field(...)
     password: str = Field(...)
 
     class Config:
         json_schema_extra = {
             "example": {
-                "nickname": "hamster",
+                "name": "hamster",
                 "email": "haha@example.com",
                 "password": "1234a"
             }
@@ -88,3 +88,7 @@ class UserLoginSchema(BaseModel):
                 "password": "1234a"
             }
         }
+
+class UserSchemaId(BaseModel):
+    ok: bool = True
+    user_id: int

@@ -1,5 +1,6 @@
 import datetime
 
+from sqlalchemy import Column, Integer, String
 from sqlalchemy.ext.asyncio import create_async_engine, async_sessionmaker
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
 
@@ -7,8 +8,11 @@ from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
 engine = create_async_engine("sqlite+aiosqlite:///app/planner.db")
 new_session = async_sessionmaker(engine, expire_on_commit=False)
 
+
 class Model(DeclarativeBase):
     pass
+
+#Planner
 
 class PlanOrm(Model):
     __tablename__ = "plans"
@@ -46,3 +50,14 @@ async def create_tables():
 async def delete_tables():
     async with engine.begin() as conn:
         await conn.run_sync(Model.metadata.drop_all)
+
+
+#Users
+
+class UserOrm(Model):
+    __tablename__ = 'users'
+    
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    name = Column(String)
+    email = Column(String, unique=True)
+    password = Column(String)
