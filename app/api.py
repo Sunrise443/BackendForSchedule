@@ -43,3 +43,21 @@ async def login(username: str, password: str):
 async def connection_error():
     raise HTTPException(status_code=102, detail = "System Error(102)")
 
+from fastapi import FastAPI, HTTPException
+from pydantic import BaseModel
+
+app = FastAPI()
+
+class User(BaseModel):
+    username: str
+    password: str
+
+#users = []
+#здесь как раз нужно соединение с базой данных
+@app.post("/registr")
+async def register(user:User):
+    if user.username in [user.usernamefor user in users]: #Рит,это мы сравниваем, существует ли это имя уже в базе данных.
+        raise HTTPException(status_code=400, detail="Username already exists")
+    users.append(user)#dobavili usera v basu dannih
+    return{"message": "User registered successfully"}
+
