@@ -60,4 +60,3 @@ target
 .venv
 .env
 *.db
-.gitattributes

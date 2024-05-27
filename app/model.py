@@ -1,4 +1,6 @@
-from pydantic import BaseModel, ConfigDict
+import datetime
+from pydantic import BaseModel, ConfigDict, EmailStr, Field
+
 
 
 #Planner Schemas
@@ -8,7 +10,7 @@ from pydantic import BaseModel, ConfigDict
 class PlanSchemaAdd(BaseModel):
     user_id: int
     plan_name: str
-    date: str
+    date: datetime.date
     completed: bool
 
 class PlanSchema(PlanSchemaAdd):
@@ -25,7 +27,7 @@ class PlanSchemaId(BaseModel):
 class GoalSchemaAdd(BaseModel):
     user_id: int
     goal_name: str
-    date: str
+    date: datetime.date
     completed: bool
 
 class GoalSchema(GoalSchemaAdd):
@@ -42,8 +44,7 @@ class GoalSchemaId(BaseModel):
 class NoteSchemaAdd(BaseModel):
     user_id: int
     note_name: str
-    date: str
-    completed: bool
+    date: datetime.date
 
 class NoteSchema(NoteSchemaAdd):
     id: int
@@ -53,3 +54,41 @@ class NoteSchema(NoteSchemaAdd):
 class NoteSchemaId(BaseModel):
     ok: bool = True
     note_id: int
+
+
+
+#Authentication Schemas
+
+
+
+class UserSchema(BaseModel):
+    name: str = Field(...)
+    email: EmailStr = Field(...)
+    password: str = Field(...)
+
+    class Config:
+        json_schema_extra = {
+            "example": {
+                "name": "hamster",
+                "email": "haha@example.com",
+                "password": "1234a"
+            }
+        }
+
+
+
+class UserLoginSchema(BaseModel):
+    email: EmailStr = Field(...)
+    password: str = Field(...)
+
+    class Config:
+        json_schema_extra = {
+            "example": {
+                "email": "haha@example.com",
+                "password": "1234a"
+            }
+        }
+
+class UserSchemaId(BaseModel):
+    ok: bool = True
+    user_id: int

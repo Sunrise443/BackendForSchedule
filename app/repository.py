@@ -1,7 +1,7 @@
 from sqlalchemy import select
 
-from app.database import GoalOrm, NoteOrm, new_session, PlanOrm
-from app.model import GoalSchemaAdd, GoalSchema, NoteSchemaAdd, NoteSchema, PlanSchemaAdd, PlanSchema
+from app.database import GoalOrm, NoteOrm, new_session, PlanOrm, UserOrm
+from app.model import GoalSchemaAdd, GoalSchema, NoteSchemaAdd, NoteSchema, PlanSchemaAdd, PlanSchema, UserLoginSchema, UserSchema
 
 
 class PlanRepo:
@@ -68,3 +68,25 @@ class NoteRepo:
             note_models = result.scalars().all()
             note_schemas = [NoteSchema.model_validate(note_model) for note_model in note_models]
             return note_schemas
+        
+
+class UserRepo:
+    @classmethod
+    async def add_one(cls, user_data: UserSchema) -> int:
+        async with new_session() as session:
+            user_dict = user_data.model_dump()
+
+            user = UserOrm(**user_dict)
+            session.add(user)
+            await session.flush()
+            await session.commit()
+            return user.id
+        
+    @classmethod
+    async def find_all(cls) -> list[UserLoginSchema]:
+        async with new_session() as session:
+            query = select(UserOrm)
+            result = await session.execute(query)
+            user_models = result.scalars().all()
+            user_schemas = [UserLoginSchema.model_validate(user_model) for user_model in user_models]
+            return user_schemas

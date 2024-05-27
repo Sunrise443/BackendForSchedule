@@ -2,6 +2,5 @@ fastapi
 uvicorn
 sqlalchemy
 aiosqlite
-PyJWT
-python-decouple
-email_validator
+passlib
+"passlib[bcrypt]"
