@@ -1,5 +1,3 @@
-from typing import Annotated
-
 from fastapi import APIRouter, Depends, HTTPException, status
 from passlib.context import CryptContext
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
@@ -17,7 +15,7 @@ router = APIRouter()
 
 
 @router.post("/planner/plans", tags=["planner"])
-async def add_plan(plan: Annotated[PlanSchemaAdd, Depends()]) -> PlanSchemaId:
+async def add_plan(plan: PlanSchemaAdd) -> PlanSchemaId:
     plan_id = await PlanRepo.add_one(plan)
     return{"ok": True, "plan_id": plan_id}
 
@@ -29,7 +27,7 @@ async def get_plans() -> list[PlanSchema]:
 
 
 @router.post("/planner/goals", tags=["planner"])
-async def add_goal(goal: Annotated[GoalSchemaAdd, Depends()]) -> GoalSchemaId:
+async def add_goal(goal: GoalSchemaAdd) -> GoalSchemaId:
     goal_id = await GoalRepo.add_one(goal)
     return{"ok": True, "goal_id": goal_id}
 
@@ -41,7 +39,7 @@ async def get_goals() -> list[GoalSchema]:
 
 
 @router.post("/planner/notes", tags=["planner"])
-async def add_note(note: Annotated[NoteSchemaAdd, Depends()]) -> NoteSchemaId:
+async def add_note(note: NoteSchemaAdd) -> NoteSchemaId:
     note_id = await NoteRepo.add_one(note)
     return{"ok": True, "note_id": note_id}
 
@@ -56,7 +54,7 @@ async def get_notes() -> list[NoteSchema]:
 
 
 @router.post("/registr", tags=["user"])
-async def register(user: Annotated[UserSchema, Depends()]) -> str:
+async def register(user: UserSchema) -> str:
     if UserOrm.name in UserOrm:
         raise HTTPException(status_code=400, detail="Username already exists")
     await UserRepo.add_one(user)

@@ -10,7 +10,7 @@ from pydantic import BaseModel, ConfigDict, EmailStr, Field
 class PlanSchemaAdd(BaseModel):
     user_id: int
     plan_name: str
-    date: datetime.date
+    date: str
     completed: bool
 
 class PlanSchema(PlanSchemaAdd):
@@ -27,7 +27,7 @@ class PlanSchemaId(BaseModel):
 class GoalSchemaAdd(BaseModel):
     user_id: int
     goal_name: str
-    date: datetime.date
+    date: str
     completed: bool
 
 class GoalSchema(GoalSchemaAdd):
@@ -44,7 +44,7 @@ class GoalSchemaId(BaseModel):
 class NoteSchemaAdd(BaseModel):
     user_id: int
     note_name: str
-    date: datetime.date
+    date: str
 
 class NoteSchema(NoteSchemaAdd):
     id: int

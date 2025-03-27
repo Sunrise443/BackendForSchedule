@@ -10,8 +10,6 @@ from app.routers import router
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    await delete_tables()
-    print("Databases are clear")
     await create_tables()
     print("Databases are ready")
     yield

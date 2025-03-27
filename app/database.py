@@ -20,7 +20,7 @@ class PlanOrm(Model):
     id: Mapped[int] = mapped_column(primary_key=True)
     user_id: Mapped[int]
     plan_name: Mapped[str]
-    date: Mapped[datetime.date]
+    date: Mapped[str]
     completed: Mapped[bool]
 
 
@@ -30,7 +30,7 @@ class GoalOrm(Model):
     id: Mapped[int] = mapped_column(primary_key=True)
     user_id: Mapped[int]
     goal_name: Mapped[str]
-    date: Mapped[datetime.date]
+    date: Mapped[str]
     completed: Mapped[bool]
 
 
@@ -40,7 +40,7 @@ class NoteOrm(Model):
     id: Mapped[int] = mapped_column(primary_key=True)
     user_id: Mapped[int]
     note_name: Mapped[str]
-    date: Mapped[datetime.date]
+    date: Mapped[str]
 
 
 async def create_tables():
